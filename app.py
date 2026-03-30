@@ -14,18 +14,21 @@ st.set_page_config(
 # Configure MLflow centralized tracking
 @st.cache_resource
 def init_mlflow():
-    status = "Disconnected"
+    """Initialize MLflow only if a tracking URI is explicitly provided."""
+    tracking_uri = os.environ.get("MLFLOW_TRACKING_URI")
+    if not tracking_uri:
+        return "Not Configured"
+        
     try:
-        tracking_uri = os.environ.get("MLFLOW_TRACKING_URI", "http://localhost:5000")
+        import requests
+        # Rapid check before configuring
+        requests.get(tracking_uri, timeout=0.8)
+        
         mlflow.set_tracking_uri(tracking_uri)
         mlflow.set_experiment("PolicyCortex_LLM")
-        # Ping status
-        import requests
-        requests.get(tracking_uri, timeout=0.5)
-        status = "Connected"
+        return "Connected"
     except Exception:
-        pass
-    return status
+        return "Disconnected"
 
 MLFLOW_STATUS = init_mlflow()
 
