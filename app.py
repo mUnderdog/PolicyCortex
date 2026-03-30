@@ -3,7 +3,6 @@ import sys
 import time
 import streamlit as st
 import mlflow
-from llama_cpp import Llama
 
 st.set_page_config(
     page_title="PolicyCortex | AI Cybersecurity Platform",
