@@ -49,8 +49,11 @@ from utils.llm_utils import get_unified_llm, GGUF_PATH
 def init_llm():
     return get_unified_llm()
 
-LLM_ENGINE = init_llm()
-MODEL_SOURCE = LLM_ENGINE.mode.upper() # "GEMINI" or "LOCAL"
+LLM_ENGINE = get_unified_llm()
+if LLM_ENGINE:
+    MODEL_SOURCE = LLM_ENGINE.mode.upper() # "GROQ" or "LOCAL"
+else:
+    MODEL_SOURCE = "ERROR"
 
 
 # ── Premium Cybersecurity CSS (Dark Mode) ──────────────────────────────────────
@@ -497,10 +500,12 @@ with st.sidebar:
 
     st.markdown("---")
     st.markdown("##### Inference Engine")
-    if MODEL_SOURCE == "GEMINI":
-        st.success("✨  Running on **Gemini 1.5 Flash**\n\nStatus: **Cloud Optimized**\nProvider: **Google generative AI**")
+    if MODEL_SOURCE == "GROQ":
+        st.success("🚀 Running on **Groq Cloud**\n\nModel: **Llama-3.3-70b-versatile**\nInference: **Sub-second Latency**")
+    elif MODEL_SOURCE == "LOCAL":
+        st.info("💻 Running on **Local CPU** via `llama-cpp-python`\n\nModel: **Gemma-2B Q4_K_M**\nContext: **4096 tokens**")
     else:
-        st.info("🖥️  Running on **Local CPU** via `llama-cpp-python`\n\nModel: **Gemma-2B Q4_K_M**\nContext: **4096 tokens**")
+        st.error("⚠️ No LLM Engine available. Please check environment variables.")
 
     st.markdown("---")
     if st.button("⟳  Reload Model", use_container_width=True):
