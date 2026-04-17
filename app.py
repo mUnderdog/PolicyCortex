@@ -2,7 +2,10 @@ import os
 import sys
 import time
 import streamlit as st
-import mlflow
+
+# Defer MLflow import to handle environments where it's unavailable
+mlflow = None
+
 
 st.set_page_config(
     page_title="PolicyCortex | AI Cybersecurity Platform",
@@ -15,11 +18,15 @@ st.set_page_config(
 @st.cache_resource
 def init_mlflow():
     """Initialize MLflow only if a tracking URI is explicitly provided."""
+    global mlflow
     tracking_uri = os.environ.get("MLFLOW_TRACKING_URI")
     if not tracking_uri:
         return "Not Configured"
         
     try:
+        import mlflow as mf
+        mlflow = mf
+        
         import requests
         # Rapid check before configuring
         requests.get(tracking_uri, timeout=0.8)
@@ -27,8 +34,9 @@ def init_mlflow():
         mlflow.set_tracking_uri(tracking_uri)
         mlflow.set_experiment("PolicyCortex_LLM")
         return "Connected"
-    except Exception:
-        return "Disconnected"
+    except (ImportError, Exception):
+        return "Offline (Library Issue)"
+
 
 MLFLOW_STATUS = init_mlflow()
 
