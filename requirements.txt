@@ -16,4 +16,4 @@ requests
 python-dateutil
 pyyaml
 altair
-protobuf==4.25.3
+protobuf<4.0.0
