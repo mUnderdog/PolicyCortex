@@ -68,7 +68,7 @@ else:
 
 # ── Premium Cybersecurity CSS (Dark Mode) ──────────────────────────────────────
 st.markdown("""
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
 <style>
 /* ── Global Reset & Base (Dark) ── */
@@ -76,8 +76,10 @@ st.markdown("""
 
 html, body, [data-testid="stAppViewContainer"],
 [data-testid="stApp"] {
-    background-color: #0b0e14 !important;
-    color: #f1f5f9 !important;
+    background-color: #030712 !important;
+    background-image: radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.08), transparent 25%),
+                      radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.08), transparent 25%) !important;
+    color: #f8fafc !important;
     font-family: 'Inter', sans-serif !important;
 }
 
@@ -209,25 +211,23 @@ label, [data-testid="stWidgetLabel"] > p {
 }
 [data-testid="stSlider"] [data-baseweb="slider"] [data-testid="stTickBar"] { background: #334155 !important; }
 
-/* ── Buttons (Glow) ── */
+/* ── Buttons (Premium Gradients) ── */
 [data-testid="stButton"] button,
 [data-testid="baseButton-primary"] {
-    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important;
     border: none !important;
     border-radius: 8px !important;
     color: #ffffff !important;
     font-family: 'Inter', sans-serif !important;
-    font-size: 0.85rem !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.04em !important;
-    text-transform: uppercase !important;
-    padding: 10px 28px !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4) !important;
+    font-size: 0.9rem !important;
+    font-weight: 600 !important;
+    padding: 12px 28px !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3) !important;
 }
 [data-testid="stButton"] button:hover {
     transform: translateY(-2px) !important;
-    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.6) !important;
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4) !important;
     filter: brightness(1.1) !important;
 }
 
@@ -287,20 +287,21 @@ code, pre {
 
 /* ── Header brand area ── */
 .pc-header {
-    padding: 2.5rem 0 1.5rem;
-    border-bottom: 1px solid #1e293b;
+    text-align: center;
+    padding: 4rem 0 3rem;
     margin-bottom: 2rem;
+    position: relative;
 }
 .pc-logo {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 2.8rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 60%, #8b5cf6 100%);
+    font-family: 'Inter', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    background: linear-gradient(135deg, #38bdf8 0%, #8b5cf6 50%, #d946ef 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    background-clip: text;
-    letter-spacing: -0.02em;
-    line-height: 1.1;
+    position: relative;
+    z-index: 1;
 }
 .pc-tagline {
     font-family: 'Inter', sans-serif;
@@ -354,21 +355,22 @@ code, pre {
 
 /* ── Card container ── */
 .pc-card {
-    background: #1e293b;
-    border: 1px solid #334155;
-    border-radius: 12px;
-    padding: 1.8rem;
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 2rem;
     margin-bottom: 1.5rem;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 .pc-card::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 3px;
-    background: linear-gradient(90deg, #3b82f6, #0ea5e9, transparent);
+    background: linear-gradient(90deg, #4f46e5, #d946ef, transparent);
 }
 
 /* ── Output / result area ── */
