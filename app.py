@@ -574,12 +574,17 @@ with tab1:
                 "Data Sensitivity", ["Low", "Medium", "High"],
                 key="pg_data",
             )
+            iac_target = st.selectbox(
+                "Automated Remediation (IaC)",
+                ["None (Policy Only)", "Terraform (AWS)", "Terraform (Azure)", "Terraform (GCP)"],
+                key="pg_iac"
+            )
 
-    max_tokens = st.slider("Max Output Tokens", 100, 500, 300, 50, key="pg_max_tokens")
+    max_tokens = st.slider("Max Output Tokens", 100, 1500, 600, 50, key="pg_max_tokens")
 
-    if st.button("Generate Policy", type="primary", key="pg_generate"):
+    if st.button("Generate Policy & Code", type="primary", key="pg_generate"):
         system_msg = (
-            "You are a professional cybersecurity policy advisor. "
+            "You are a professional cybersecurity policy advisor and DevSecOps engineer. "
             "Write clear, structured, actionable cybersecurity policies."
         )
         user_msg = (
@@ -589,6 +594,8 @@ with tab1:
             f"Data Sensitivity: {data}\n\n"
             "Explain why this control matters and provide clear implementation steps."
         )
+        if iac_target != "None (Policy Only)":
+            user_msg += f"\n\nCRITICAL REQUIREMENT: Below the policy, output a production-ready {iac_target} script enclosed in an hcl code block that automatically enforces this policy."
 
         try:
             with st.spinner("Generating policy draft…"):
@@ -639,7 +646,7 @@ with tab1:
 
             st.markdown('<div class="pc-card">', unsafe_allow_html=True)
             st.markdown(
-                '<div class="pc-output-label">Generated Policy Output</div>',
+                '<div class="pc-output-label">Generated Policy & Infrastructure Code</div>',
                 unsafe_allow_html=True,
             )
             st.markdown(policy_text)
