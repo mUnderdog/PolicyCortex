@@ -475,69 +475,69 @@ def load_model():
 
 
 # ── Header ──────────────────────────────────────────────────────────────────────
-st.markdown("""
+st.markdown(f"""
 <div class="pc-header">
-  <div class="pc-logo">🛡️ PolicyCortex</div>
-  <div class="pc-tagline">AI-Powered Cybersecurity Policy Intelligence Platform</div>
-  <div class="pc-badge">⬤&nbsp; Model Engine: {MODEL_SOURCE}</div>
+  <div class="pc-logo">PolicyCortex</div>
+  <div class="pc-tagline">Enterprise Security Intelligence Platform</div>
+  <div class="pc-badge">CORE: {MODEL_SOURCE}</div>
 </div>
 """, unsafe_allow_html=True)
 
 # ── Sidebar ──────────────────────────────────────────────────────────────────────
 with st.sidebar:
-    st.markdown('<div class="pc-sidebar-logo">🛡️ PolicyCortex</div>', unsafe_allow_html=True)
-    st.markdown("##### Runtime Status")
+    st.markdown('<div class="pc-sidebar-logo">PolicyCortex</div>', unsafe_allow_html=True)
+    st.markdown("##### System Diagnostics")
 
     if os.path.exists(GGUF_PATH):
         st.markdown(
-            '<span class="pc-status-dot pc-dot-green"></span> **Model file found**',
+            '<span class="pc-status-dot pc-dot-green"></span> **Local Core Active**',
             unsafe_allow_html=True,
         )
     else:
         st.markdown(
-            '<span class="pc-status-dot pc-dot-red"></span> **Model file missing**',
+            '<span class="pc-status-dot pc-dot-red"></span> **Local Core Offline**',
             unsafe_allow_html=True,
         )
 
     if MLFLOW_STATUS == "Connected":
         st.markdown(
-            '<span class="pc-status-dot pc-dot-green"></span> **MLOps: Connected**',
+            '<span class="pc-status-dot pc-dot-green"></span> **Telemetry: Active**',
             unsafe_allow_html=True,
         )
     else:
         st.markdown(
-            '<span class="pc-status-dot pc-dot-amber"></span> **MLOps: Offline**',
+            '<span class="pc-status-dot pc-dot-amber"></span> **Telemetry: Offline**',
             unsafe_allow_html=True,
         )
 
     st.markdown("---")
-    st.markdown("##### Inference Engine")
+    st.markdown("##### Processing Environment")
     if MODEL_SOURCE == "GROQ":
-        st.success("🚀 Running on **Groq Cloud**\n\nModel: **Llama-3.3-70b-versatile**\nInference: **Sub-second Latency**")
+        st.success("Cloud Inference Node\n\nProvider: Groq Network\nStatus: Optimized")
     elif MODEL_SOURCE == "LOCAL":
-        st.info("💻 Running on **Local CPU** via `llama-cpp-python`\n\nModel: **Gemma-2B Q4_K_M**\nContext: **4096 tokens**")
+        st.info("Local Inference Node\n\nCompute: Edge Processing\nStatus: Optimized")
     else:
-        st.error("⚠️ No LLM Engine available. Please check environment variables.")
+        st.error("System Fault: Inference node unreachable.")
 
     st.markdown("---")
-    if st.button("⟳  Reload Model", use_container_width=True):
+    if st.button("Reload Core Variables", use_container_width=True):
         st.cache_resource.clear()
         st.rerun()
 
     st.markdown("---")
     st.markdown(
-        '<p style="font-family:\'JetBrains Mono\',monospace;font-size:0.65rem;'
-        'color:#2a4a6a;letter-spacing:0.08em;text-align:center;">'
-        "POLICYCORTEX v1.0 · AI RESEARCH BUILD</p>",
+        '<p style="font-family:\\\'Inter\\\',sans-serif;font-size:0.7rem;'
+        'color:#64748b;letter-spacing:0.05em;text-align:center;">'
+        "POLICYCORTEX PLATFORM · ENTERPRISE EDITION</p>",
         unsafe_allow_html=True,
     )
 
 # ── Tabs ─────────────────────────────────────────────────────────────────────────
 tab1, tab2, tab3, tab4 = st.tabs([
-    "🔐  Policy Generator",
-    "🧠  Security Advisor",
-    "✏️  Policy Refiner",
-    "🗺️  Security Roadmap",
+    "Policy Engine",
+    "Threat Intelligence",
+    "Compliance Refiner",
+    "Strategic Roadmap",
 ])
 
 # ==============================================================================
@@ -545,10 +545,9 @@ tab1, tab2, tab3, tab4 = st.tabs([
 # ==============================================================================
 with tab1:
     st.markdown("""
-    <div class="pc-section-title">Generate a Cybersecurity Policy</div>
+    <div class="pc-section-title">Policy Generation Engine</div>
     <div class="pc-section-desc">
-        Configure your organization profile below and click <strong>Generate Policy</strong>
-        to produce a structured, actionable policy draft using the on-device Gemma-2B model.
+        Define organizational parameters to construct customized, framework-aligned security policies.
     </div>
     """, unsafe_allow_html=True)
 
@@ -664,10 +663,10 @@ with tab1:
 # ==============================================================================
 with tab2:
     st.markdown("""
-    <div class="pc-section-title">AI Security Advisor</div>
+    <div class="pc-section-title">Threat Intelligence Engine</div>
     <div class="pc-section-desc">
-        Chat with the AI security advisor grounded in CIS Controls and OWASP
-        best practices. Your conversation history is preserved within this session.
+        Interactive query interface grounded in CIS Controls and OWASP best practices.
+        Session telemetry and query history are preserved.
     </div>
     """, unsafe_allow_html=True)
 
@@ -679,7 +678,7 @@ with tab2:
     # ── Clear chat button ────────────────────────────────────────────────────
     col_clear, _ = st.columns([1, 5])
     with col_clear:
-        if st.button("🗑️  Clear Chat", key="advisor_clear"):
+        if st.button("Clear Session", key="advisor_clear"):
             st.session_state.advisor_history = []
             st.rerun()
 
@@ -690,7 +689,7 @@ with tab2:
         with st.chat_message("user"):
             st.markdown(turn["user"])
 
-        with st.chat_message("assistant", avatar="🛡️"):
+        with st.chat_message("assistant"):
             st.markdown(turn["assistant"])
 
             # Retrieved source controls for this turn
@@ -712,7 +711,7 @@ with tab2:
 
     # ── Chat input (always at the bottom) ───────────────────────────────────
     user_question = st.chat_input(
-        "Ask a security question… e.g. How should startups secure their APIs?",
+        "Enter security query... (e.g., API security protocols for enterprise)",
         key="advisor_chat_input",
     )
 
@@ -728,8 +727,8 @@ with tab2:
         ]
 
         try:
-            with st.chat_message("assistant", avatar="🛡️"):
-                with st.spinner("Retrieving relevant controls and generating answer…"):
+            with st.chat_message("assistant"):
+                with st.spinner("Querying intelligence database..."):
                     start_time = time.time()
                     if MLFLOW_STATUS == "Connected":
                         with mlflow.start_run(run_name="Security_Advisor_Chat"):
@@ -783,11 +782,10 @@ with tab2:
 # ==============================================================================
 with tab3:
     st.markdown("""
-    <div class="pc-section-title">Policy Refiner</div>
+    <div class="pc-section-title">Compliance Refiner</div>
     <div class="pc-section-desc">
-        Paste an existing cybersecurity policy below.
-        The AI will rewrite it into a <strong>clear, professional, NIST-aligned</strong> document
-        with structured sections and compliance references.
+        Automated transformation of existing policies into <strong>NIST-aligned</strong> documentation
+        with structured sections and compliance mapping.
     </div>
     """, unsafe_allow_html=True)
 
@@ -881,10 +879,10 @@ Policy:
 # ==============================================================================
 with tab4:
     st.markdown("""
-    <div class="pc-section-title">Security Roadmap Generator</div>
+    <div class="pc-section-title">Strategic Roadmap Generator</div>
     <div class="pc-section-desc">
-        Generate a <strong>30–60–90 day phased cybersecurity implementation roadmap</strong>
-        automatically prioritised by your Cyber Risk Index and organisational profile.
+        Dynamic <strong>30–60–90 day phased implementation roadmap</strong>
+        prioritized by computed Cyber Risk Index (CRI) and operational parameters.
     </div>
     """, unsafe_allow_html=True)
 
